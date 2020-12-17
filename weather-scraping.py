@@ -22,7 +22,7 @@ for day in soup.find_all(class_= ["swg-row-wrapper bg--blue-gradient text--white
     # get all the rows
     texts = day.find_all(class_="swg-row")
 
-    # cherry-pick relevant pieces (could be more elegant)
+    # cherry-pick relevant pieces
     date = texts[0].get_text().replace("  ", "") #remove spaces
     date = date.replace("\n", "") #remove newlines
 
