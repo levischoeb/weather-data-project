@@ -20,6 +20,7 @@ To run the code you need to go through the following steps:
    pip3 install bs4
    
  Code Explanation:
+ 
 First the before installed packages need to be imported to the program. Then you get the data from the chosen website with requests and parse it with BeautifulSoup. Then we create a list to hold the extracted data. In a next step we had to get rid of the data we didn't want to extract by finding the right class in the developer tools of the website. We created a loop to pick the relevent weather information of each day by choosing their position in the created list. For every category we first extracted the text an then removed unwanted characters such as spaces and sections by replacing them with no space. The maximum and minimum temperature needed to be split so we could display them individually. Additionaly we created a dictionary to name each category and added this dictionary to our list. With panda we created a frame for our extracted data on our list. At the end we printed our dataframe which displays the weather forecast from the chosen website.
 
 
