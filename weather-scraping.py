@@ -14,22 +14,6 @@ listings = []
 # get rid of surrounding garbage
 grid = soup.find(class_="spaces-weather-grid")
 
-# imports first
-import requests
-import pandas as pd
-from bs4 import BeautifulSoup
-
-
-# load html page and parse
-page = requests.get("https://ch.wetter.com/wetter_aktuell/wettervorhersage/7_tagesvorhersage/schweiz/sankt-gallen/CH0CH3756.html")
-soup = BeautifulSoup(page.content, 'html.parser')
-
-# dict will hold data
-listings = []
-
-# get rid of surrounding garbage
-grid = soup.find(class_="spaces-weather-grid")
-
 # "today" is a separate class
 for day in soup.find_all(class_= ["swg-row-wrapper bg--blue-gradient text--white",
                                   "swg-row-wrapper bg--blue-gradient text--white is-selected"]):
@@ -38,7 +22,7 @@ for day in soup.find_all(class_= ["swg-row-wrapper bg--blue-gradient text--white
     # get all the rows
     texts = day.find_all(class_="swg-row")
 
-    # cherry-pick relevant pieces 
+    # cherry-pick relevant pieces (could be more elegant)
     date = texts[0].get_text().replace("  ", "") #remove spaces
     date = date.replace("\n", "") #remove newlines
 
@@ -71,4 +55,6 @@ for day in soup.find_all(class_= ["swg-row-wrapper bg--blue-gradient text--white
 df = pd.DataFrame(listings)
 
 print(df)
+
+
 
