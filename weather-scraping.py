@@ -14,6 +14,22 @@ listings = []
 # get rid of surrounding garbage
 grid = soup.find(class_="spaces-weather-grid")
 
+# imports first
+import requests
+import pandas as pd
+from bs4 import BeautifulSoup
+
+
+# load html page and parse
+page = requests.get("https://ch.wetter.com/wetter_aktuell/wettervorhersage/7_tagesvorhersage/schweiz/sankt-gallen/CH0CH3756.html")
+soup = BeautifulSoup(page.content, 'html.parser')
+
+# dict will hold data
+listings = []
+
+# get rid of surrounding garbage
+grid = soup.find(class_="spaces-weather-grid")
+
 # "today" is a separate class
 for day in soup.find_all(class_= ["swg-row-wrapper bg--blue-gradient text--white",
                                   "swg-row-wrapper bg--blue-gradient text--white is-selected"]):
@@ -26,8 +42,8 @@ for day in soup.find_all(class_= ["swg-row-wrapper bg--blue-gradient text--white
     date = texts[0].get_text().replace("  ", "") #remove spaces
     date = date.replace("\n", "") #remove newlines
 
-    descriptor = texts[1].get_text().replace("  ", "")
-    descriptor = descriptor.replace("\n", "")
+    description = texts[1].get_text().replace("  ", "")
+    description = description.replace("\n", "")
 
     temp = texts[3].get_text().replace("\n", "")
     temp = temp.split("/\u2009") #remove symbols
@@ -45,9 +61,9 @@ for day in soup.find_all(class_= ["swg-row-wrapper bg--blue-gradient text--white
 
     windSpeed = texts[10].get_text().replace("\n", "").replace("\u202f", " ").replace("  ", "")
 
-    new_dict = {"date" : date, "desc" : descriptor, "tempMax": tempMax,
-                "tempMin": tempMin, "chanceOfPrec": chanceOfPrec,
-                "windDir": windDir, "windSpeed": windSpeed}
+    new_dict = {"Date" : date, "Description" : description, "MaxTemp": tempMax,
+                "MinTemp": tempMin, "PrecChance": chanceOfPrec,
+                "WindDir": windDir, "WindSpeed": windSpeed}
 
     listings.append(new_dict)
 
@@ -55,3 +71,4 @@ for day in soup.find_all(class_= ["swg-row-wrapper bg--blue-gradient text--white
 df = pd.DataFrame(listings)
 
 print(df)
+
